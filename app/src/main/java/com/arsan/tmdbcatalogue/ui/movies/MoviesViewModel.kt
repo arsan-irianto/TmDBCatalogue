@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MoviesViewModel : ViewModel() {
+
     private var mutableLiveData = MutableLiveData<MoviesResponse>()
     private var retrofitService = RetrofitService
 
