@@ -1,10 +1,13 @@
 package com.arsan.tmdbcatalogue.ui.movies
 
-import androidx.test.espresso.Espresso
+import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import com.arsan.tmdbcatalogue.R
@@ -37,7 +40,14 @@ class MoviesFragmentTest {
 
     @Test
     fun loadMovies() {
-        Espresso.onView(ViewMatchers.withId(R.id.rv_movies)).check(ViewAssertions.matches(isDisplayed()))
-        Espresso.onView(ViewMatchers.withId(R.id.rv_movies)).check(RecyclerViewItemCountAssertion(20))
+        onView(withId(R.id.rv_movies)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_movies)).check(RecyclerViewItemCountAssertion(20))
+        onView(withId(R.id.rv_movies)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        onView(withId(R.id.movie_detail)).check(matches(isDisplayed()))
     }
 }

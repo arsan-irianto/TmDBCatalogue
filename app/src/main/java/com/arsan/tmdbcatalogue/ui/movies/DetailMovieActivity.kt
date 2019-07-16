@@ -29,9 +29,9 @@ class DetailMovieActivity : AppCompatActivity() {
             movieBackdrop = intent.getStringExtra("backdrop_path")
             movieRating = intent.getDoubleExtra("vote_average", 0.0)
 
-            tv_name.text = movieTitle
-            tv_overview.text = movieOverview
-            tv_rating.text = movieRating.toString()
+            tv_detail_name.text = movieTitle
+            tv_detail_overview.text = movieOverview
+            tv_detail_rating.text = movieRating.toString()
         }
 
         supportActionBar?.title = viewModel.movieTitle
@@ -44,11 +44,11 @@ class DetailMovieActivity : AppCompatActivity() {
 
     private fun loadImages() {
         GlideApp.with(this)
-            .load(BuildConfig.IMAGE_URL + "original" + viewModel.moviePoster)
+            .load(BuildConfig.IMAGE_URL + "w342" + viewModel.moviePoster)
             .into(img_poster_path)
 
         GlideApp.with(this)
-            .load(BuildConfig.IMAGE_URL + "original" + viewModel.movieBackdrop)
+            .load(BuildConfig.IMAGE_URL + "w342" + viewModel.movieBackdrop)
             .into(img_backdrop_path)
     }
 }

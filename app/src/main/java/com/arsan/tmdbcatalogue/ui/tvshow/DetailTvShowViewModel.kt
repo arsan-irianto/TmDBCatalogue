@@ -1,8 +1,8 @@
-package com.arsan.tmdbcatalogue.ui.movies
+package com.arsan.tmdbcatalogue.ui.tvshow
 
 import androidx.lifecycle.ViewModel
 
-class DetailMovieViewModel : ViewModel() {
+class DetailTvShowViewModel: ViewModel() {
     var movieId: Int? = null
     var movieTitle: String? = null
     var movieOverview: String? = null

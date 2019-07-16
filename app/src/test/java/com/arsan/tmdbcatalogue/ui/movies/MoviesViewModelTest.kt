@@ -15,6 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import retrofit2.Response
+import org.junit.Assert.*
 
 @ObsoleteCoroutinesApi
 @RunWith(JUnit4::class)
@@ -90,6 +91,7 @@ class MoviesViewModelTest {
                     )
                 )
             )
+            assertEquals(20, moviesViewModel.moviesData().value?.results?.size)
         }
     }
 }

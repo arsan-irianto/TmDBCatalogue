@@ -1,11 +1,11 @@
 package com.arsan.tmdbcatalogue.ui.tvshow
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -34,9 +34,17 @@ class TvShowFragment : Fragment() {
             showTv(it.results)
         })
 
-        if(activity!=null) {
+        if (activity != null) {
             tvShowAdapter = TvShowAdapter(requireContext(), tvShow) {
-                Toast.makeText(requireContext(), "Hello World", Toast.LENGTH_SHORT).show()
+                val intent = Intent(requireContext(), DetailTvShowActivity::class.java).apply {
+                    putExtra("id", it.id)
+                    putExtra("title", it.name)
+                    putExtra("overview", it.overview)
+                    putExtra("poster_path", it.poster_path)
+                    putExtra("backdrop_path", it.backdrop_path)
+                    putExtra("vote_average", it.vote_average)
+                }
+                startActivity(intent)
             }
             rv_tvshow.adapter = tvShowAdapter
             rv_tvshow.layoutManager = LinearLayoutManager(requireContext())

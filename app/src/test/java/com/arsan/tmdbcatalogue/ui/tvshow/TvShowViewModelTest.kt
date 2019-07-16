@@ -10,6 +10,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Response
@@ -85,6 +86,7 @@ class TvShowViewModelTest {
                     )
                 )
             )
+            Assert.assertEquals(20, tvShowViewModel.tvData().value?.results?.size)
         }
     }
 }

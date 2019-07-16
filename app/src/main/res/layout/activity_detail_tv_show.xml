@@ -1,10 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="match_parent"
-        tools:context=".ui.tvshow.DetailTvShowActivity">
+        tools:context=".ui.tvshow.DetailTvShowActivity"
+        android:id="@+id/tvshow_detail"
+        android:layout_width="match_parent" xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:layout_height="400dp">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="@color/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snapMargins"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+                app:toolbarId="@id/app_bar"
+                app:expandedTitleGravity="bottom">
+
+            <ImageView android:layout_width="match_parent"
+                       app:layout_collapseMode="parallax"
+                       android:id="@+id/img_poster_path"
+                       android:background="@color/colorPrimary"
+                       android:scaleType="centerCrop"
+                       android:fitsSystemWindows="true"
+                       android:layout_height="match_parent"/>
+
+
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/app_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    app:layout_collapseMode="pin"/>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                app:cardMaxElevation="4dp"
+                app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                <ImageView
+                        android:layout_width="match_parent"
+                        android:id="@+id/img_backdrop_path"
+                        android:layout_marginTop="0dp"
+                        android:scaleType="fitXY"
+                        android:layout_height="200dp"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="8dp"
+                        android:ellipsize="end"
+                        android:gravity="start"
+                        android:textColor="@color/colorTextSecondary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:text="@string/title"
+                        android:id="@+id/tv_detail_name"/>
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:paddingBottom="8dp"
+                              android:orientation="horizontal">
+                    <TextView
+                            android:id="@+id/tv_detail_rating"
+                            android:layout_marginTop="8dp"
+                            android:layout_width="36dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_height="36dp"
+                            android:background="@drawable/rating_circle"
+                            android:gravity="center"
+                            android:textColor="@android:color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:text="8.9" />
+
+                    <TextView
+                            android:layout_width="50dp"
+                            android:textSize="12sp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="8dp"
+                            android:textStyle="bold"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/user_rating"/>
+                </LinearLayout>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:textColor="@color/colorText"
+                        android:textSize="14sp"
+                        android:text="@string/overview"
+                        android:justificationMode="inter_word"
+                        android:id="@+id/tv_detail_overview"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
