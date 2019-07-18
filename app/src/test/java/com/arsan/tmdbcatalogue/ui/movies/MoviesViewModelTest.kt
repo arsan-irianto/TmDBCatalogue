@@ -24,8 +24,8 @@ class MoviesViewModelTest {
     private val mainThread = newSingleThreadContext("UI Thread")
 
     @MockK
-    lateinit var tmDBServices: TmDBServices
-    lateinit var moviesViewModel: MoviesViewModel
+    private lateinit var tmDBServices: TmDBServices
+    private lateinit var moviesViewModel: MoviesViewModel
 
     @ExperimentalCoroutinesApi
     @Before

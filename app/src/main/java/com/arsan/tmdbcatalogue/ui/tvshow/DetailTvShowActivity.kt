@@ -3,7 +3,7 @@ package com.arsan.tmdbcatalogue.ui.tvshow
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
-import com.arsan.academies.utils.GlideApp
+import com.arsan.tmdbcatalogue.utils.GlideApp
 import com.arsan.tmdbcatalogue.BuildConfig
 import com.arsan.tmdbcatalogue.R
 import kotlinx.android.synthetic.main.activity_detail_tv_show.*

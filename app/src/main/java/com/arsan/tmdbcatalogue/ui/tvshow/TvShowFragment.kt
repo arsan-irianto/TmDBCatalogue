@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_tv_show.*
 
 class TvShowFragment : Fragment() {
 
-    private var viewModel: TvShowViewModel = TvShowViewModel()
+    private lateinit var viewModel: TvShowViewModel
     private var tvShow: MutableList<TvShow> = mutableListOf()
     private lateinit var tvShowAdapter: TvShowAdapter
 

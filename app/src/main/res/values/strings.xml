@@ -4,4 +4,6 @@
     <string name="release_date">Release Date</string>
     <string name="overview">Overview</string>
     <string name="user_rating">User Rating</string>
+    <string name="image_collapse_toolbar">Image For Collapsing Toolbar</string>
+    <string name="image_backdrop">Image For Movie Backdrop</string>
 </resources>

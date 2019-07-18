@@ -1,4 +1,4 @@
-package com.arsan.academies.utils
+package com.arsan.tmdbcatalogue.utils
 
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.module.AppGlideModule

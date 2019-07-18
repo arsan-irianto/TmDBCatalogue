@@ -6,7 +6,7 @@ import org.junit.Test
 
 class DetailMovieViewModelTest {
 
-    lateinit var detailMovieViewModel: DetailMovieViewModel
+    private lateinit var detailMovieViewModel: DetailMovieViewModel
 
     @Before
     fun setUp() {

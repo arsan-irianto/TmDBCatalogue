@@ -19,8 +19,8 @@ class TvShowViewModelTest {
     private val mainThread = newSingleThreadContext("UI Thread")
 
     @MockK
-    lateinit var tmDBServices: TmDBServices
-    lateinit var tvShowViewModel: TvShowViewModel
+    private lateinit var tmDBServices: TmDBServices
+    private lateinit var tvShowViewModel: TvShowViewModel
 
     @ExperimentalCoroutinesApi
     @Before

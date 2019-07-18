@@ -6,16 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsan.tmdbcatalogue.R
 import com.arsan.tmdbcatalogue.data.models.Movie
+import com.arsan.tmdbcatalogue.data.repositories.AppRepository
+import com.arsan.tmdbcatalogue.data.repositories.remote.RemoteRepository
+import com.arsan.tmdbcatalogue.ui.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movies.*
 
 class MoviesFragment : Fragment() {
 
-    private var viewModel: MoviesViewModel = MoviesViewModel()
+    private lateinit var viewModel: MoviesViewModel
     private var movies: MutableList<Movie> = mutableListOf()
     private lateinit var moviesAdapter: MoviesAdapter
 
@@ -28,12 +33,13 @@ class MoviesFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MoviesViewModel::class.java)
-        viewModel.moviesData().observe(viewLifecycleOwner, Observer {
-            showMovies(it.results)
-        })
+
+        val factory  = ViewModelFactory.getInstance()
+        ViewModelProviders.of(this, factory).get(MoviesViewModel::class.java)
 
         if (activity != null) {
+            viewModel.movieLiveData.observe(viewLifecycleOwner, Observer { showMovies(it.results) })
+
             moviesAdapter = MoviesAdapter(requireContext(), movies) {
                 val intent = Intent(requireContext(), DetailMovieActivity::class.java).apply {
                     putExtra("id", it.id)
@@ -59,4 +65,8 @@ class MoviesFragment : Fragment() {
     }
 
 
+/*    private fun obtainViewModel(activity: FragmentActivity): MoviesViewModel {
+        val factory  = ViewModelFactory.getInstance()
+        return ViewModelProviders.of(this, factory).get(MoviesViewModel::class.java)
+    }*/
 }

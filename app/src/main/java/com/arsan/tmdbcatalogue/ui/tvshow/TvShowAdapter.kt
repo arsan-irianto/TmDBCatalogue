@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.arsan.academies.utils.GlideApp
+import com.arsan.tmdbcatalogue.utils.GlideApp
 import com.arsan.tmdbcatalogue.BuildConfig
 import com.arsan.tmdbcatalogue.R
 import com.arsan.tmdbcatalogue.data.models.TvShow

@@ -27,6 +27,7 @@
                        android:id="@+id/img_poster_path"
                        android:background="@color/colorPrimary"
                        android:scaleType="centerCrop"
+                       android:contentDescription="@string/image_collapse_toolbar"
                        android:fitsSystemWindows="true"
                        android:layout_height="match_parent"/>
 
@@ -69,6 +70,7 @@
                         android:layout_width="match_parent"
                         android:id="@+id/img_backdrop_path"
                         android:layout_marginTop="0dp"
+                        android:contentDescription="@string/image_backdrop"
                         android:scaleType="fitXY"
                         android:layout_height="200dp"/>
 

@@ -1,17 +1,19 @@
 package com.arsan.tmdbcatalogue.ui.tvshow
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arsan.tmdbcatalogue.data.models.TvShowResponse
 import com.arsan.tmdbcatalogue.data.networks.RetrofitService
 import com.arsan.tmdbcatalogue.data.networks.TmDBServices
+import com.arsan.tmdbcatalogue.data.repositories.AppRepository
 import com.arsan.tmdbcatalogue.utils.EspressoIdlingResource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TvShowViewModel : ViewModel() {
+class TvShowViewModel(private val appRepository: AppRepository) : ViewModel() {
     private var mutableLiveData = MutableLiveData<TvShowResponse>()
     private var retrofitService = RetrofitService
 
@@ -27,12 +29,12 @@ class TvShowViewModel : ViewModel() {
                 EspressoIdlingResource.increment()
                 tmDBServices.fetchTvTopRated()
             }
-            mutableLiveData.value = tvList.body()
+            mutableLiveData.postValue(tvList.body())
             EspressoIdlingResource.decrement()
         }
     }
 
-    fun tvData(): MutableLiveData<TvShowResponse> {
+    fun tvData(): LiveData<TvShowResponse> {
         return mutableLiveData
     }
 

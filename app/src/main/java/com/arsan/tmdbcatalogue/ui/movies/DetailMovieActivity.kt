@@ -3,7 +3,7 @@ package com.arsan.tmdbcatalogue.ui.movies
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
-import com.arsan.academies.utils.GlideApp
+import com.arsan.tmdbcatalogue.utils.GlideApp
 import com.arsan.tmdbcatalogue.BuildConfig
 import com.arsan.tmdbcatalogue.R
 import kotlinx.android.synthetic.main.activity_detail_movie.*
