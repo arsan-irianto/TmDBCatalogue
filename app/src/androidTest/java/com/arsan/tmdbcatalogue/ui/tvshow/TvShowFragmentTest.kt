@@ -1,9 +1,12 @@
 package com.arsan.tmdbcatalogue.ui.tvshow
 
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -38,10 +41,10 @@ class TvShowFragmentTest {
 
     @Test
     fun loadTvShow() {
-/*        Thread.sleep(5000)
         onView(withId(R.id.rv_tvshow)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_tvshow)).check(RecyclerViewItemCountAssertion(20))*/
-        onView(withId(R.id.rv_tvshow)).check(matches(isDisplayed()))
+        onView(withId(R.id.pb_tvshow)).perform(ProgressBar.VISIBLE)
+        onView(withId(R.id.pb_tvshow)).perform(ProgressBar.INVISIBLE)
+        onView(withId(R.id.sr_tvshow)).perform(swipeDown())
         onView(withId(R.id.rv_tvshow)).check(RecyclerViewItemCountAssertion(20))
         onView(withId(R.id.rv_tvshow)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
@@ -52,3 +55,5 @@ class TvShowFragmentTest {
         onView(withId(R.id.tvshow_detail)).check(matches(isDisplayed()))
     }
 }
+
+private fun ViewInteraction.perform(visible: Int) {}

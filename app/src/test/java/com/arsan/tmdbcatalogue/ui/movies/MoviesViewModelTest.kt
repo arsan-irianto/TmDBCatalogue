@@ -2,7 +2,7 @@ package com.arsan.tmdbcatalogue.ui.movies
 
 import com.arsan.tmdbcatalogue.data.models.Movie
 import com.arsan.tmdbcatalogue.data.models.MoviesResponse
-import com.arsan.tmdbcatalogue.data.networks.TmDBServices
+import com.arsan.tmdbcatalogue.data.repositories.remote.RemoteRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -10,12 +10,13 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.koin.core.context.stopKoin
 import retrofit2.Response
-import org.junit.Assert.*
 
 @ObsoleteCoroutinesApi
 @RunWith(JUnit4::class)
@@ -24,20 +25,20 @@ class MoviesViewModelTest {
     private val mainThread = newSingleThreadContext("UI Thread")
 
     @MockK
-    private lateinit var tmDBServices: TmDBServices
     private lateinit var moviesViewModel: MoviesViewModel
+    private lateinit var remoteRepository: RemoteRepository
 
     @ExperimentalCoroutinesApi
     @Before
     fun setUp() {
         Dispatchers.setMain(mainThread)
         MockKAnnotations.init(this)
-        moviesViewModel = MoviesViewModel()
     }
 
     @ExperimentalCoroutinesApi
     @After
     fun tearDown() {
+        stopKoin()
         Dispatchers.resetMain()
         mainThread.close()
     }
@@ -45,7 +46,7 @@ class MoviesViewModelTest {
     @Test
     fun testFetchNowPlaying_Success() {
         GlobalScope.launch(Dispatchers.IO) {
-            coEvery { tmDBServices.fetchNowPlaying() } returns Response.success(
+            coEvery { remoteRepository.getMovies() } returns Response.success(
                 MoviesResponse(
                     page = 1,
                     results = listOf(
@@ -70,10 +71,10 @@ class MoviesViewModelTest {
                 )
             )
 
-            moviesViewModel.moviesData().observeForever { }
-            assert(moviesViewModel.moviesData().value != null)
+            moviesViewModel.liveData.observeForever { }
+            assert(moviesViewModel.liveData.value != null)
             assert(
-                moviesViewModel.moviesData().value?.results ?: true == listOf(
+                moviesViewModel.liveData.value?.results ?: true == listOf(
                     Movie(
                         adult = false,
                         backdrop_path = "/dihW2yTsvQlust7mSuAqJDtqW7k.jpg",
@@ -91,7 +92,7 @@ class MoviesViewModelTest {
                     )
                 )
             )
-            assertEquals(20, moviesViewModel.moviesData().value?.results?.size)
+            assertEquals(20, moviesViewModel.liveData.value?.results?.size)
         }
     }
 }

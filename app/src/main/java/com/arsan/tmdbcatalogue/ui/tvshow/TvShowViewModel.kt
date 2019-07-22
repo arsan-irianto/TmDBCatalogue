@@ -5,37 +5,28 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arsan.tmdbcatalogue.data.models.TvShowResponse
-import com.arsan.tmdbcatalogue.data.networks.RetrofitService
-import com.arsan.tmdbcatalogue.data.networks.TmDBServices
-import com.arsan.tmdbcatalogue.data.repositories.AppRepository
+import com.arsan.tmdbcatalogue.data.repositories.remote.RemoteRepository
 import com.arsan.tmdbcatalogue.utils.EspressoIdlingResource
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TvShowViewModel(private val appRepository: AppRepository) : ViewModel() {
+class TvShowViewModel(private val remoteRepository: RemoteRepository) : ViewModel() {
     private var mutableLiveData = MutableLiveData<TvShowResponse>()
-    private var retrofitService = RetrofitService
+    val liveData: LiveData<TvShowResponse> = mutableLiveData
 
     init {
         tvRoutine()
     }
 
     private fun tvRoutine() {
-
-        val tmDBServices: TmDBServices = retrofitService.createService(TmDBServices::class.java)
         viewModelScope.launch {
-            val tvList = withContext(Dispatchers.IO) {
+            val tvShowList = withContext(IO) {
                 EspressoIdlingResource.increment()
-                tmDBServices.fetchTvTopRated()
+                remoteRepository.getTvShow()
             }
-            mutableLiveData.postValue(tvList.body())
+            mutableLiveData.postValue(tvShowList.body())
             EspressoIdlingResource.decrement()
         }
     }
-
-    fun tvData(): LiveData<TvShowResponse> {
-        return mutableLiveData
-    }
-
 }

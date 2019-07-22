@@ -2,7 +2,7 @@ package com.arsan.tmdbcatalogue.ui.tvshow
 
 import com.arsan.tmdbcatalogue.data.models.TvShow
 import com.arsan.tmdbcatalogue.data.models.TvShowResponse
-import com.arsan.tmdbcatalogue.data.networks.TmDBServices
+import com.arsan.tmdbcatalogue.data.repositories.remote.RemoteRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -19,15 +19,14 @@ class TvShowViewModelTest {
     private val mainThread = newSingleThreadContext("UI Thread")
 
     @MockK
-    private lateinit var tmDBServices: TmDBServices
     private lateinit var tvShowViewModel: TvShowViewModel
+    private lateinit var remoteRepository: RemoteRepository
 
     @ExperimentalCoroutinesApi
     @Before
     fun setUp() {
         Dispatchers.setMain(mainThread)
         MockKAnnotations.init(this)
-        tvShowViewModel = TvShowViewModel()
     }
 
     @ExperimentalCoroutinesApi
@@ -40,7 +39,7 @@ class TvShowViewModelTest {
     @Test
     fun testFetchTvTopRated_Success() {
         GlobalScope.launch(Dispatchers.IO) {
-            coEvery { tmDBServices.fetchTvTopRated() } returns Response.success(
+            coEvery { remoteRepository.getTvShow() } returns Response.success(
                 TvShowResponse(
                     page = 1,
                     results = listOf(
@@ -65,10 +64,10 @@ class TvShowViewModelTest {
                 )
             )
 
-            tvShowViewModel.tvData().observeForever { }
-            assert(tvShowViewModel.tvData().value != null)
+            tvShowViewModel.liveData.observeForever { }
+            assert(tvShowViewModel.liveData.value != null)
             assert(
-                tvShowViewModel.tvData().value?.results ?: true == listOf(
+                tvShowViewModel.liveData.value?.results ?: true == listOf(
                     TvShow(
                         backdrop_path = "/o8Site0BMZ8xhknKJ0m52iLfqHg.jpg",
                         first_air_date = "2004-05-10",
@@ -86,7 +85,7 @@ class TvShowViewModelTest {
                     )
                 )
             )
-            Assert.assertEquals(20, tvShowViewModel.tvData().value?.results?.size)
+            Assert.assertEquals(20, tvShowViewModel.liveData.value?.results?.size)
         }
     }
 }

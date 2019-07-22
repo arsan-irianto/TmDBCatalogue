@@ -8,15 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsan.tmdbcatalogue.R
 import com.arsan.tmdbcatalogue.data.models.TvShow
 import kotlinx.android.synthetic.main.fragment_tv_show.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TvShowFragment : Fragment() {
 
-    private lateinit var viewModel: TvShowViewModel
+    private val viewModel: TvShowViewModel by viewModel()
     private var tvShow: MutableList<TvShow> = mutableListOf()
     private lateinit var tvShowAdapter: TvShowAdapter
 
@@ -29,12 +29,11 @@ class TvShowFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(TvShowViewModel::class.java)
-        viewModel.tvData().observe(viewLifecycleOwner, Observer {
-            showTv(it.results)
-        })
 
         if (activity != null) {
+
+            loadDataTvShow()
+
             tvShowAdapter = TvShowAdapter(requireContext(), tvShow) {
                 val intent = Intent(requireContext(), DetailTvShowActivity::class.java).apply {
                     putExtra("id", it.id)
@@ -50,6 +49,15 @@ class TvShowFragment : Fragment() {
             rv_tvshow.layoutManager = LinearLayoutManager(requireContext())
         }
 
+    }
+
+    private fun loadDataTvShow() {
+        pb_tvshow.visibility = View.VISIBLE
+
+        viewModel.liveData.observe(viewLifecycleOwner, Observer {
+            pb_tvshow.visibility = View.INVISIBLE
+            showTv(it.results)
+        })
     }
 
     private fun showTv(data: List<TvShow>) {

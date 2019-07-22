@@ -4,7 +4,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 
-class ViewPagerAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
+class ViewPagerAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(
+    fragmentManager,
+    BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+) {
 
     private val fragmentList = ArrayList<Fragment>()
     private val fragmentTitle = ArrayList<String>()
@@ -18,7 +21,7 @@ class ViewPagerAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAda
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return fragmentTitle.get(position)
+        return fragmentTitle[position]
     }
 
     fun addFragment(fragment: Fragment, title: String) {

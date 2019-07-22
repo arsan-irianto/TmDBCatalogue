@@ -6,21 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsan.tmdbcatalogue.R
 import com.arsan.tmdbcatalogue.data.models.Movie
-import com.arsan.tmdbcatalogue.data.repositories.AppRepository
-import com.arsan.tmdbcatalogue.data.repositories.remote.RemoteRepository
-import com.arsan.tmdbcatalogue.ui.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movies.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MoviesFragment : Fragment() {
 
-    private lateinit var viewModel: MoviesViewModel
+    private val viewModel: MoviesViewModel by viewModel()
     private var movies: MutableList<Movie> = mutableListOf()
     private lateinit var moviesAdapter: MoviesAdapter
 
@@ -33,12 +28,12 @@ class MoviesFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        //viewModel = ViewModelProviders.of(this).get(MoviesViewModel::class.java)
 
-        val factory  = ViewModelFactory.getInstance()
-        ViewModelProviders.of(this, factory).get(MoviesViewModel::class.java)
-
+        sr_movies.isRefreshing = false
         if (activity != null) {
-            viewModel.movieLiveData.observe(viewLifecycleOwner, Observer { showMovies(it.results) })
+
+            loadDataMovies()
 
             moviesAdapter = MoviesAdapter(requireContext(), movies) {
                 val intent = Intent(requireContext(), DetailMovieActivity::class.java).apply {
@@ -52,21 +47,29 @@ class MoviesFragment : Fragment() {
                 startActivity(intent)
 
             }
+
             rv_movies.adapter = moviesAdapter
             rv_movies.layoutManager = LinearLayoutManager(requireContext())
         }
 
+        sr_movies.setOnRefreshListener {
+            loadDataMovies()
+        }
+
+    }
+
+    private fun loadDataMovies() {
+        pb_movies.visibility = View.VISIBLE
+        viewModel.liveData.observe(viewLifecycleOwner, Observer {
+            showMovies(it.results)
+            pb_movies.visibility = View.INVISIBLE
+        })
     }
 
     private fun showMovies(data: List<Movie>) {
+        sr_movies.isRefreshing = false
         movies.clear()
         movies.addAll(data)
         moviesAdapter.notifyDataSetChanged()
     }
-
-
-/*    private fun obtainViewModel(activity: FragmentActivity): MoviesViewModel {
-        val factory  = ViewModelFactory.getInstance()
-        return ViewModelProviders.of(this, factory).get(MoviesViewModel::class.java)
-    }*/
 }

@@ -17,7 +17,7 @@ android {
         versionName "1.0"
         buildConfigField "String", "BASE_URL", "\"https://api.themoviedb.org/3/\""
         buildConfigField "String", "API_KEY", "\"api_key=729f3008a1fc67fef3734104107cc863\""
-        buildConfigField "String", "IMAGE_URL", "\"http://image.tmdb.org/t/p/\""
+        buildConfigField "String", "IMAGE_URL", "\"https://image.tmdb.org/t/p/\""
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -55,7 +55,8 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime:2.2.0-alpha02'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha02'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha02'
-
+    //implementation "androidx.fragment:fragment-ktx:1.2.0-alpha01"
+    implementation group: 'androidx.lifecycle', name: 'lifecycle-extensions', version: '2.2.0-alpha2'
 
     // Dependencies for local unit tests
     testImplementation 'junit:junit:4.12'
@@ -80,4 +81,10 @@ dependencies {
 
     implementation "androidx.test.espresso:espresso-idling-resource:3.2.0"
 
+    // Koin for Android
+    implementation 'org.koin:koin-android:2.0.1'
+    // or Koin for Lifecycle scoping
+    implementation 'org.koin:koin-androidx-scope:2.0.1'
+    // or Koin for Android Architecture ViewModel
+    implementation 'org.koin:koin-androidx-viewmodel:2.0.1'
 }

@@ -1,9 +1,12 @@
 package com.arsan.tmdbcatalogue.ui.movies
 
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -41,6 +44,9 @@ class MoviesFragmentTest {
     @Test
     fun loadMovies() {
         onView(withId(R.id.rv_movies)).check(matches(isDisplayed()))
+        onView(withId(R.id.pb_movies)).perform(ProgressBar.VISIBLE)
+        onView(withId(R.id.pb_movies)).perform(ProgressBar.INVISIBLE)
+        onView(withId(R.id.sr_movies)).perform(swipeDown())
         onView(withId(R.id.rv_movies)).check(RecyclerViewItemCountAssertion(20))
         onView(withId(R.id.rv_movies)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
@@ -51,3 +57,5 @@ class MoviesFragmentTest {
         onView(withId(R.id.movie_detail)).check(matches(isDisplayed()))
     }
 }
+
+private fun ViewInteraction.perform(visible: Int) {}
