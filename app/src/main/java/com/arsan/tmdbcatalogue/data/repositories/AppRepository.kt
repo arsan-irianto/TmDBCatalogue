@@ -22,7 +22,9 @@ class AppRepository(
                 return localRepository.getTvShow()
             }
 
-            override fun shouldFetch(data: List<TvShow>?) = true
+            override fun shouldFetch(data: List<TvShow>?): Boolean {
+                return data == null || data.isEmpty()
+            }
 
             override fun createCall() = remoteRepository.getTvShow()
 
@@ -39,7 +41,9 @@ class AppRepository(
                 return localRepository.getMovies()
             }
 
-            override fun shouldFetch(data: List<Movie>?) = true
+            override fun shouldFetch(data: List<Movie>?): Boolean {
+                return data == null || data.isEmpty()
+            }
 
             override fun createCall() = remoteRepository.getMovies()
 

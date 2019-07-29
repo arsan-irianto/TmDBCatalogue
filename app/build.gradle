@@ -99,6 +99,8 @@ dependencies {
     androidTestImplementation "org.mockito:mockito-android:2.23.4"
     androidTestImplementation "androidx.room:room-testing:$roomVersion"
 
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+
 // Lifecycle components
     //kapt "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
 
