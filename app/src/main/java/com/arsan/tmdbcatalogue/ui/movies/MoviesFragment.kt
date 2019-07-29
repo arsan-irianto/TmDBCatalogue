@@ -2,16 +2,22 @@ package com.arsan.tmdbcatalogue.ui.movies
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsan.tmdbcatalogue.R
 import com.arsan.tmdbcatalogue.data.models.Movie
+import com.arsan.tmdbcatalogue.ui.home.HomeActivity
+import com.arsan.tmdbcatalogue.vo.Status
 import kotlinx.android.synthetic.main.fragment_movies.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.IllegalStateException
 
 class MoviesFragment : Fragment() {
 
@@ -28,7 +34,6 @@ class MoviesFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        //viewModel = ViewModelProviders.of(this).get(MoviesViewModel::class.java)
 
         sr_movies.isRefreshing = false
         if (activity != null) {
@@ -45,7 +50,6 @@ class MoviesFragment : Fragment() {
                     putExtra("vote_average", it.vote_average)
                 }
                 startActivity(intent)
-
             }
 
             rv_movies.adapter = moviesAdapter
@@ -55,21 +59,26 @@ class MoviesFragment : Fragment() {
         sr_movies.setOnRefreshListener {
             loadDataMovies()
         }
-
     }
 
+
     private fun loadDataMovies() {
-        pb_movies.visibility = View.VISIBLE
-        viewModel.liveData.observe(viewLifecycleOwner, Observer {
-            showMovies(it.results)
-            pb_movies.visibility = View.INVISIBLE
+        viewModel.setData("MovieList")
+        viewModel.liveData.observe(activity as HomeActivity, Observer {
+            when(it.status) {
+                Status.LOADING ->  pb_movies.visibility = View.VISIBLE
+                Status.SUCCESS -> it.data?.let { data -> showMovies(data)}
+                Status.ERROR -> pb_movies.visibility = View.GONE
+            }
         })
+        sr_movies.isRefreshing = false
     }
 
     private fun showMovies(data: List<Movie>) {
-        sr_movies.isRefreshing = false
         movies.clear()
         movies.addAll(data)
         moviesAdapter.notifyDataSetChanged()
+        sr_movies.isRefreshing = false
+        pb_movies.visibility = View.INVISIBLE
     }
 }

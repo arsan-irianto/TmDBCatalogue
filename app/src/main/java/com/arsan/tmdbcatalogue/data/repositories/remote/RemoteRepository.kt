@@ -4,7 +4,7 @@ import com.arsan.tmdbcatalogue.data.networks.TmDBServices
 
 class RemoteRepository(private val tmDBServices: TmDBServices) {
 
-    suspend fun getMovies() = tmDBServices.fetchNowPlaying()
+    fun getMovies() = tmDBServices.fetchNowPlaying()
 
-    suspend fun getTvShow() = tmDBServices.fetchTvTopRated()
+    fun getTvShow() = tmDBServices.fetchTvTopRated()
 }

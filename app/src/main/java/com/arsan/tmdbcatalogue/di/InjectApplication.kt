@@ -12,7 +12,7 @@ class InjectApplication: Application() {
         startKoin {
             androidLogger()
             androidContext(this@InjectApplication)
-            modules(listOf(viewModelModule, netWorkModule, repositoryModule))
+            modules(appModule)
         }
     }
 }
