@@ -3,6 +3,7 @@ package com.arsan.tmdbcatalogue.data.room
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.arsan.tmdbcatalogue.data.models.FavMovie
+import com.arsan.tmdbcatalogue.data.models.FavTvshow
 import com.arsan.tmdbcatalogue.data.models.Movie
 
 @Dao
@@ -20,9 +21,14 @@ interface MovieDao {
     @Update(onConflict = OnConflictStrategy.ABORT)
     fun updateMovies(movie: Movie)
 
+    // Favorite Movie Processs
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFavMovie (favMovie: FavMovie)
 
-    @Delete
-    fun deleteFavMovie (favMovie: FavMovie)
+    @Query("DELETE FROM fav_movie WHERE id = :movieId")
+    fun deleteFavMovie (movieId: Int)
+
+    @Query("SELECT count(id) FROM fav_movie WHERE id = :movieId")
+    fun favMovieById(movieId: Int): Int
+
 }

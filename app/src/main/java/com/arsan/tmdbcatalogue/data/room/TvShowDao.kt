@@ -19,9 +19,13 @@ interface TvShowDao {
     @Update(onConflict = OnConflictStrategy.ABORT)
     fun updateTvShows(tvshow: TvShow)
 
+    // Favorite Tvshow Processs
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFavTvshow (favTvshow: FavTvshow)
 
-    @Delete
-    fun deleteFavTvshow (favTvshow: FavTvshow)
+    @Query("DELETE FROM fav_tvshow WHERE id = :tvshowId")
+    fun deleteFavTvshow (tvshowId: Int)
+
+    @Query("SELECT count(id) FROM fav_tvshow WHERE id = :tvshowId")
+    fun favTvshowyId(tvshowId: Int): Int
 }

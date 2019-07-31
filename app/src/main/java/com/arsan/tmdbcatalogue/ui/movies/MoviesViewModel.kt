@@ -9,7 +9,12 @@ import com.arsan.tmdbcatalogue.data.repositories.AppRepository
 import com.arsan.tmdbcatalogue.vo.Resource
 
 class MoviesViewModel(private val appRepository: AppRepository) : ViewModel() {
-    private var mutableLiveData = MutableLiveData<String>()
+
+    private val movieId = MutableLiveData<Int>()
+    private val mutableLiveData = MutableLiveData<String>()
+
+    //val isFavorite: LiveData<Boolean> = Transformations.switchMap(movieId) { id -> appRepository.favMovieState(id)}
+
     val liveData: LiveData<Resource<List<Movie>>> = Transformations.switchMap(mutableLiveData) {
         appRepository.getAllMovie()
     }

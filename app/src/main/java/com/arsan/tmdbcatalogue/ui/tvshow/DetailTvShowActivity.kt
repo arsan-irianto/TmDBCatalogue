@@ -1,24 +1,31 @@
 package com.arsan.tmdbcatalogue.ui.tvshow
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProviders
-import com.arsan.tmdbcatalogue.utils.GlideApp
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.arsan.tmdbcatalogue.BuildConfig
 import com.arsan.tmdbcatalogue.R
+import com.arsan.tmdbcatalogue.utils.GlideApp
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_detail_tv_show.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailTvShowActivity : AppCompatActivity() {
 
-    private var viewModel: DetailTvShowViewModel = DetailTvShowViewModel()
+    private var menuItem: Menu? = null
+    private var isFavorite: Boolean = false
+    private lateinit var contextView: View
+    private val viewModel: DetailTvShowViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_tv_show)
 
         setSupportActionBar(app_bar)
-
-        viewModel = ViewModelProviders.of(this).get(DetailTvShowViewModel::class.java)
+        contextView = findViewById(R.id.tvshow_detail)
 
         with(viewModel) {
 
@@ -39,6 +46,10 @@ class DetailTvShowActivity : AppCompatActivity() {
         supportActionBar?.elevation = 0F
 
         loadImages()
+
+        if (viewModel.rowCount() > 0) {
+            isFavorite = true
+        }
     }
 
     private fun loadImages() {
@@ -49,5 +60,40 @@ class DetailTvShowActivity : AppCompatActivity() {
         GlideApp.with(this)
             .load(BuildConfig.IMAGE_URL + "w342" + viewModel.movieBackdrop)
             .into(img_backdrop_path)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            R.id.fav_detail_tvshow -> {
+                showSnackbar(viewModel.toggleFavTvshow(isFavorite))
+                isFavorite = !isFavorite
+                setFavorite()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_detail_tvshow, menu)
+        menuItem = menu
+        setFavorite()
+        return true
+    }
+
+    private fun setFavorite() {
+        if (isFavorite) {
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorite_white)
+        } else {
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorite_border_white)
+        }
+    }
+
+    private fun showSnackbar(strMessage: String) {
+        Snackbar.make(contextView, strMessage, Snackbar.LENGTH_SHORT).show()
     }
 }
