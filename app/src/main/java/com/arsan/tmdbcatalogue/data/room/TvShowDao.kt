@@ -21,11 +21,14 @@ interface TvShowDao {
 
     // Favorite Tvshow Processs
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertFavTvshow (favTvshow: FavTvshow)
+    fun insertFavTvshow(favTvshow: FavTvshow)
 
     @Query("DELETE FROM fav_tvshow WHERE id = :tvshowId")
-    fun deleteFavTvshow (tvshowId: Int)
+    fun deleteFavTvshow(tvshowId: Int)
 
     @Query("SELECT count(id) FROM fav_tvshow WHERE id = :tvshowId")
     fun favTvshowyId(tvshowId: Int): Int
+
+    @Query("SELECT * FROM fav_tvshow")
+    fun getAllFavTvshow(): LiveData<List<FavTvshow>>
 }

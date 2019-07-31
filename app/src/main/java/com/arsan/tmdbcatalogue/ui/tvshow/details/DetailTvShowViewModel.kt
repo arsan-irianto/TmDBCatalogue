@@ -1,4 +1,4 @@
-package com.arsan.tmdbcatalogue.ui.tvshow
+package com.arsan.tmdbcatalogue.ui.tvshow.details
 
 import androidx.lifecycle.ViewModel
 import com.arsan.tmdbcatalogue.data.models.FavTvshow

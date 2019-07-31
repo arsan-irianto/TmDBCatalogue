@@ -1,38 +1,31 @@
-package com.arsan.tmdbcatalogue.ui.movies
+package com.arsan.tmdbcatalogue.ui.tvshow.details
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import com.arsan.tmdbcatalogue.BuildConfig
 import com.arsan.tmdbcatalogue.R
-import com.arsan.tmdbcatalogue.R.drawable.ic_favorite_border_white
-import com.arsan.tmdbcatalogue.R.drawable.ic_favorite_white
-import com.arsan.tmdbcatalogue.R.menu.menu_detail_movie
-import com.arsan.tmdbcatalogue.data.models.FavMovie
-import com.arsan.tmdbcatalogue.data.repositories.AppRepository
 import com.arsan.tmdbcatalogue.utils.GlideApp
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_detail_movie.*
+import kotlinx.android.synthetic.main.activity_detail_tv_show.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DetailMovieActivity : AppCompatActivity() {
+class DetailTvShowActivity : AppCompatActivity() {
 
     private var menuItem: Menu? = null
     private var isFavorite: Boolean = false
     private lateinit var contextView: View
-    private val viewModel: DetailMovieViewModel by viewModel()
+    private val viewModel: DetailTvShowViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_movie)
+        setContentView(R.layout.activity_detail_tv_show)
 
         setSupportActionBar(app_bar)
-        contextView = findViewById(R.id.movie_detail)
+        contextView = findViewById(R.id.tvshow_detail)
 
         with(viewModel) {
 
@@ -46,7 +39,6 @@ class DetailMovieActivity : AppCompatActivity() {
             tv_detail_name.text = movieTitle
             tv_detail_overview.text = movieOverview
             tv_detail_rating.text = movieRating.toString()
-
         }
 
         supportActionBar?.title = viewModel.movieTitle
@@ -76,8 +68,8 @@ class DetailMovieActivity : AppCompatActivity() {
                 finish()
                 true
             }
-            R.id.fav_detail_movie -> {
-                showSnackbar(viewModel.toggleFavMovie(isFavorite))
+            R.id.fav_detail_tvshow -> {
+                showSnackbar(viewModel.toggleFavTvshow(isFavorite))
                 isFavorite = !isFavorite
                 setFavorite()
                 true
@@ -87,7 +79,7 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(menu_detail_movie, menu)
+        menuInflater.inflate(R.menu.menu_detail_tvshow, menu)
         menuItem = menu
         setFavorite()
         return true
@@ -95,9 +87,9 @@ class DetailMovieActivity : AppCompatActivity() {
 
     private fun setFavorite() {
         if (isFavorite) {
-            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, ic_favorite_white)
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorite_white)
         } else {
-            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, ic_favorite_border_white)
+            menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorite_border_white)
         }
     }
 

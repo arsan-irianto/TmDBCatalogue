@@ -2,28 +2,29 @@ package com.arsan.tmdbcatalogue.ui.movies
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsan.tmdbcatalogue.R
 import com.arsan.tmdbcatalogue.data.models.Movie
 import com.arsan.tmdbcatalogue.ui.home.HomeActivity
+import com.arsan.tmdbcatalogue.ui.movies.details.DetailMovieActivity
 import com.arsan.tmdbcatalogue.vo.Status
 import kotlinx.android.synthetic.main.fragment_movies.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.IllegalStateException
 
 class MoviesFragment : Fragment() {
 
     private val viewModel: MoviesViewModel by viewModel()
     private var movies: MutableList<Movie> = mutableListOf()
     private lateinit var moviesAdapter: MoviesAdapter
+
+    companion object {
+        fun instance(): MoviesFragment = MoviesFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,9 +66,9 @@ class MoviesFragment : Fragment() {
     private fun loadDataMovies() {
         viewModel.setData("MovieList")
         viewModel.liveData.observe(activity as HomeActivity, Observer {
-            when(it.status) {
-                Status.LOADING ->  pb_movies.visibility = View.VISIBLE
-                Status.SUCCESS -> it.data?.let { data -> showMovies(data)}
+            when (it.status) {
+                Status.LOADING -> pb_movies.visibility = View.VISIBLE
+                Status.SUCCESS -> it.data?.let { data -> showMovies(data) }
                 Status.ERROR -> pb_movies.visibility = View.GONE
             }
         })

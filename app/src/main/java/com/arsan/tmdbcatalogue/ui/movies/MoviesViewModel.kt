@@ -13,8 +13,6 @@ class MoviesViewModel(private val appRepository: AppRepository) : ViewModel() {
     private val movieId = MutableLiveData<Int>()
     private val mutableLiveData = MutableLiveData<String>()
 
-    //val isFavorite: LiveData<Boolean> = Transformations.switchMap(movieId) { id -> appRepository.favMovieState(id)}
-
     val liveData: LiveData<Resource<List<Movie>>> = Transformations.switchMap(mutableLiveData) {
         appRepository.getAllMovie()
     }

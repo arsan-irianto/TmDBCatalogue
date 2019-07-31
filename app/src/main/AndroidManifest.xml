@@ -11,9 +11,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".ui.tvshow.DetailTvShowActivity">
+        <activity android:name=".ui.tvshow.details.DetailTvShowActivity">
         </activity>
-        <activity android:name=".ui.movies.DetailMovieActivity">
+        <activity android:name=".ui.movies.details.DetailMovieActivity">
         </activity>
         <activity android:name=".ui.home.HomeActivity">
             <intent-filter>

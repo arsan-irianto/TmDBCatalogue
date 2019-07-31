@@ -2,30 +2,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:layout_gravity="center"
-                tools:context=".ui.movies.MoviesFragment">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                tools:context=".ui.tvshow.favorites.FavTvShowsFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/sr_movies"
+            android:id="@+id/sr_fav_tvshow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
 
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
             <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_movies"
+                    android:id="@+id/rv_fav_tvshow"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
             <ProgressBar
-                    android:id="@+id/pb_movies"
+                    android:id="@+id/pb_fav_tvshow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-            />
+                    android:layout_centerInParent="true" />
 
         </RelativeLayout>
 

@@ -3,7 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="match_parent"
-        tools:context=".ui.tvshow.DetailTvShowActivity"
+        tools:context=".ui.tvshow.details.DetailTvShowActivity"
         android:id="@+id/tvshow_detail"
         android:layout_width="match_parent" xmlns:tools="http://schemas.android.com/tools">
 

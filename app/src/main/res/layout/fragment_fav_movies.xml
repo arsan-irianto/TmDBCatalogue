@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:layout_gravity="center"
-                tools:context=".ui.movies.MoviesFragment">
+                tools:context=".ui.movies.favorites.FavMoviesFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/sr_movies"
+            android:id="@+id/sr_fav_movies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -16,12 +15,12 @@
                 android:layout_height="wrap_content">
 
             <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_movies"
+                    android:id="@+id/rv_fav_movies"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
             <ProgressBar
-                    android:id="@+id/pb_movies"
+                    android:id="@+id/pb_fav_movies"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"

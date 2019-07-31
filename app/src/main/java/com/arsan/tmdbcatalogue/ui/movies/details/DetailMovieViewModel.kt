@@ -1,4 +1,4 @@
-package com.arsan.tmdbcatalogue.ui.movies
+package com.arsan.tmdbcatalogue.ui.movies.details
 
 import androidx.lifecycle.ViewModel
 import com.arsan.tmdbcatalogue.data.models.FavMovie

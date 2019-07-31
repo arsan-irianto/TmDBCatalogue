@@ -1,5 +1,6 @@
 package com.arsan.tmdbcatalogue.ui.movies
 
+import com.arsan.tmdbcatalogue.ui.movies.details.DetailMovieViewModel
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
