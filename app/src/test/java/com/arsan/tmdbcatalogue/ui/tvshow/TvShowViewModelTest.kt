@@ -1,91 +1,47 @@
 package com.arsan.tmdbcatalogue.ui.tvshow
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.arsan.tmdbcatalogue.data.models.TvShow
-import com.arsan.tmdbcatalogue.data.models.TvShowResponse
-import com.arsan.tmdbcatalogue.data.repositories.remote.RemoteRepository
-import io.mockk.MockKAnnotations
-import io.mockk.coEvery
-import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.*
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
+import com.arsan.tmdbcatalogue.data.repositories.AppRepository
+import com.arsan.tmdbcatalogue.vo.Resource
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import retrofit2.Response
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.MockitoAnnotations
 
 class TvShowViewModelTest {
-    private val mainThread = newSingleThreadContext("UI Thread")
+    @Rule
+    @JvmField
+    val executor = InstantTaskExecutorRule()
 
-    @MockK
+    @Mock
     private lateinit var tvShowViewModel: TvShowViewModel
-    private lateinit var remoteRepository: RemoteRepository
+    private val appRepository = Mockito.mock(AppRepository::class.java)
 
-    @ExperimentalCoroutinesApi
+
     @Before
     fun setUp() {
-        Dispatchers.setMain(mainThread)
-        MockKAnnotations.init(this)
+        MockitoAnnotations.initMocks(this)
+        tvShowViewModel = TvShowViewModel(appRepository)
     }
 
-    @ExperimentalCoroutinesApi
     @After
     fun tearDown() {
-        Dispatchers.resetMain()
-        mainThread.close()
     }
 
     @Test
     fun testFetchTvTopRated_Success() {
-        GlobalScope.launch(Dispatchers.IO) {
-            coEvery { remoteRepository.getTvShow() } returns Response.success(
-                TvShowResponse(
-                    page = 1,
-                    results = listOf(
-                        TvShow(
-                            backdrop_path = "/o8Site0BMZ8xhknKJ0m52iLfqHg.jpg",
-                            first_air_date = "2004-05-10",
-                            genre_ids = listOf(60, 35),
-                            id = 100,
-                            name = "I Am Not an Animal",
-                            origin_country = listOf("GB"),
-                            original_language = "",
-                            original_name = "I Am Not an Animal",
-                            overview = "I Am Not An Animal is an animated comedy series about the only six talking animals in the world, whose cosseted existence in a vivisection unit is turned upside down when they are liberated by animal rights activists.",
-                            popularity = 11.301,
-                            poster_path = "/nMhv6jG5dtLdW7rgguYWvpbk0YN.jpg",
-                            vote_average = 9.5,
-                            vote_count = 305
-                        )
-                    ),
-                    total_pages = 1000,
-                    total_results = 19999
-                )
-            )
-
-            tvShowViewModel.liveData.observeForever { }
-            assert(tvShowViewModel.liveData.value != null)
-            assert(
-                tvShowViewModel.liveData.value?.results ?: true == listOf(
-                    TvShow(
-                        backdrop_path = "/o8Site0BMZ8xhknKJ0m52iLfqHg.jpg",
-                        first_air_date = "2004-05-10",
-                        genre_ids = listOf(60, 35),
-                        id = 100,
-                        name = "I Am Not an Animal",
-                        origin_country = listOf("GB"),
-                        original_language = "",
-                        original_name = "I Am Not an Animal",
-                        overview = "I Am Not An Animal is an animated comedy series about the only six talking animals in the world, whose cosseted existence in a vivisection unit is turned upside down when they are liberated by animal rights activists.",
-                        popularity = 11.301,
-                        poster_path = "/nMhv6jG5dtLdW7rgguYWvpbk0YN.jpg",
-                        vote_average = 9.5,
-                        vote_count = 305
-                    )
-                )
-            )
-            Assert.assertEquals(20, tvShowViewModel.liveData.value?.results?.size)
-        }
+        val tvshowsData: MutableLiveData<Resource<List<TvShow>>> = MutableLiveData()
+        Mockito.`when`(appRepository.getAllTvShow()).thenReturn(tvshowsData)
+        val observer = Mockito.mock(Observer::class.java) as Observer<Resource<List<TvShow>>>
+        tvShowViewModel.liveData.observeForever { observer }
+        tvShowViewModel.setData("TvShowList")
+        tvShowViewModel.liveData.observeForever(observer)
+        Mockito.verify(appRepository).getAllTvShow()
     }
 }

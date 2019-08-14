@@ -1,6 +1,7 @@
 package com.arsan.tmdbcatalogue.data.room
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.arsan.tmdbcatalogue.data.models.FavTvshow
 import com.arsan.tmdbcatalogue.data.models.TvShow
@@ -10,7 +11,7 @@ interface TvShowDao {
     @Query("SELECT * FROM tvshow_table")
     fun getAll(): LiveData<List<TvShow>>
 
-    @Query("SELECT * FROM tvshow_table WHERE idx IN (:tvshowId)")
+    @Query("SELECT * FROM tvshow_table WHERE id IN (:tvshowId)")
     fun getById(tvshowId: IntArray): LiveData<List<TvShow>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -30,5 +31,5 @@ interface TvShowDao {
     fun favTvshowyId(tvshowId: Int): Int
 
     @Query("SELECT * FROM fav_tvshow")
-    fun getAllFavTvshow(): LiveData<List<FavTvshow>>
+    fun getAllFavTvshow(): DataSource.Factory<Int, FavTvshow>
 }

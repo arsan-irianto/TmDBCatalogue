@@ -8,6 +8,7 @@ import com.arsan.tmdbcatalogue.data.repositories.remote.ApiErrorResponse
 import com.arsan.tmdbcatalogue.data.repositories.remote.ApiResponse
 import com.arsan.tmdbcatalogue.data.repositories.remote.ApiSuccessResponse
 import com.arsan.tmdbcatalogue.utils.CoroutineContextProvider
+import com.arsan.tmdbcatalogue.utils.EspressoIdlingResource
 import com.arsan.tmdbcatalogue.vo.Resource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -25,7 +26,9 @@ abstract class NetworkBoundResource<ResultType, RequestType>(private val context
         val dbSource = loadFromDB()
         result.addSource(dbSource) { data ->
             result.removeSource(dbSource)
-            if (shouldFetch(data)) fetchFromNetwork(dbSource)
+            if (shouldFetch(data)) {
+                fetchFromNetwork(dbSource)
+            }
             else {
                 result.addSource(dbSource) { newData -> result.postValue(Resource.success(newData)) }
             }
@@ -33,6 +36,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>(private val context
     }
 
     private fun fetchFromNetwork(dbSource: LiveData<ResultType>) {
+        EspressoIdlingResource.increment()
         val apiResponse = createCall()
         result.addSource(dbSource) { newData -> result.value = Resource.loading(newData) }
         result.addSource(apiResponse) { response ->
@@ -62,6 +66,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>(private val context
                 }
             }
         }
+        EspressoIdlingResource.decrement()
     }
 
     private fun onFetchFailed() {

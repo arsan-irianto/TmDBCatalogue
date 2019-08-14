@@ -1,6 +1,7 @@
 package com.arsan.tmdbcatalogue.data.room
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.arsan.tmdbcatalogue.data.models.FavMovie
 import com.arsan.tmdbcatalogue.data.models.Movie
@@ -11,7 +12,10 @@ interface MovieDao {
     @Query("SELECT * FROM movie_table")
     fun getAll(): LiveData<List<Movie>>
 
-    @Query("SELECT * FROM movie_table WHERE idx IN (:movieId)")
+    @Query("SELECT * FROM movie_table")
+    fun getAllPaging(): DataSource.Factory<Int, Movie>
+
+    @Query("SELECT * FROM movie_table WHERE id IN (:movieId)")
     fun getById(movieId: IntArray): LiveData<List<Movie>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -32,5 +36,5 @@ interface MovieDao {
     fun favMovieById(movieId: Int): Int
 
     @Query("SELECT * FROM fav_movie")
-    fun getAllFavMovie(): LiveData<List<FavMovie>>
+    fun getAllFavMovie(): DataSource.Factory<Int, FavMovie>
 }

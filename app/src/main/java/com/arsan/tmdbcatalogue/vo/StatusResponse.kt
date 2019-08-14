@@ -1,4 +1,4 @@
-package com.arsan.tmdbcatalogue.data.repositories.remote
+package com.arsan.tmdbcatalogue.vo
 
 enum class StatusResponse {
     SUCCESS,

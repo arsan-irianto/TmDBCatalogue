@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.arsan.tmdbcatalogue.BuildConfig
 import com.arsan.tmdbcatalogue.R
@@ -15,15 +17,13 @@ class FavMoviesAdapter(
     private val context: Context,
     private val movieList: List<FavMovie>,
     private val listener: (FavMovie) -> Unit
-) :
-    RecyclerView.Adapter<FavMoviesAdapter.MoviesVH>() {
+) : PagedListAdapter<FavMovie, FavMoviesAdapter.MoviesVH>(DATA_COMPARATOR) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesVH = MoviesVH(
         LayoutInflater.from(context).inflate(
             R.layout.item_fav_movie, parent, false
         )
     )
-
-    override fun getItemCount(): Int = movieList.size
 
     override fun onBindViewHolder(holder: MoviesVH, position: Int) {
         val movies = movieList[position]
@@ -41,6 +41,16 @@ class FavMoviesAdapter(
             setOnClickListener { listener(movie) }
         }
 
+    }
+
+    companion object  {
+        private val DATA_COMPARATOR = object : DiffUtil.ItemCallback<FavMovie>() {
+            override fun areItemsTheSame(oldItem: FavMovie, newItem: FavMovie): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: FavMovie, newItem: FavMovie): Boolean =
+                oldItem.id == newItem.id
+        }
     }
 
 }

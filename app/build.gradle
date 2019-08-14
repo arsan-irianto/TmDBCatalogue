@@ -63,6 +63,9 @@ dependencies {
     implementation "androidx.room:room-ktx:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 
+    // Paging
+    implementation "androidx.paging:paging-runtime:$pagingVersion"
+
     // Lifecycle Components
     implementation "androidx.lifecycle:lifecycle-runtime:$archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
@@ -103,6 +106,6 @@ dependencies {
 
 // Lifecycle components
     //kapt "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
-
+    testImplementation 'org.koin:koin-test:2.0.1'
 
 }

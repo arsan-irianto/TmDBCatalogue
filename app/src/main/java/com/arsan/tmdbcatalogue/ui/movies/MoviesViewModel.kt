@@ -10,7 +10,6 @@ import com.arsan.tmdbcatalogue.vo.Resource
 
 class MoviesViewModel(private val appRepository: AppRepository) : ViewModel() {
 
-    private val movieId = MutableLiveData<Int>()
     private val mutableLiveData = MutableLiveData<String>()
 
     val liveData: LiveData<Resource<List<Movie>>> = Transformations.switchMap(mutableLiveData) {

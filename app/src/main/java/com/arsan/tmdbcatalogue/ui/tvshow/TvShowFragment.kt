@@ -64,7 +64,7 @@ class TvShowFragment : Fragment() {
 
     private fun loadDataTvShow() {
         viewModel.setData("TvShowList")
-        viewModel.liveData.observe(activity as HomeActivity, Observer {
+        viewModel.liveData.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.LOADING -> pb_tvshow.visibility = View.VISIBLE
                 Status.SUCCESS -> it.data?.let { data -> showTv(data) }

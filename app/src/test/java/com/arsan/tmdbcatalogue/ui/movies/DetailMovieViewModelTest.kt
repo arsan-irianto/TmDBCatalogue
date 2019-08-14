@@ -1,17 +1,31 @@
 package com.arsan.tmdbcatalogue.ui.movies
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.arsan.tmdbcatalogue.data.repositories.AppRepository
 import com.arsan.tmdbcatalogue.ui.movies.details.DetailMovieViewModel
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.MockitoAnnotations
 
 class DetailMovieViewModelTest {
+
+    @Rule
+    @JvmField
+    val executor = InstantTaskExecutorRule()
+
+    @Mock
+    private val appRepository = Mockito.mock(AppRepository::class.java)
 
     private lateinit var detailMovieViewModel: DetailMovieViewModel
 
     @Before
     fun setUp() {
-        detailMovieViewModel = DetailMovieViewModel()
+        MockitoAnnotations.initMocks(this)
+        detailMovieViewModel = DetailMovieViewModel(appRepository)
     }
 
     @Test
@@ -31,7 +45,6 @@ class DetailMovieViewModelTest {
             detailMovieViewModel.movieOverview)
         assertEquals("/rjbNpRMoVvqHmhmksbokcyCr7wn.jpg", detailMovieViewModel.moviePoster)
         assertEquals("/dihW2yTsvQlust7mSuAqJDtqW7k.jpg", detailMovieViewModel.movieBackdrop)
-        assertEquals(7.8, detailMovieViewModel.movieRating)
+        assertEquals(7.8, detailMovieViewModel.movieRating, 0.0)
     }
-
 }

@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arsan.tmdbcatalogue.R
 import com.arsan.tmdbcatalogue.data.models.Movie
-import com.arsan.tmdbcatalogue.ui.home.HomeActivity
 import com.arsan.tmdbcatalogue.ui.movies.details.DetailMovieActivity
 import com.arsan.tmdbcatalogue.vo.Status
 import kotlinx.android.synthetic.main.fragment_movies.*
@@ -65,10 +64,12 @@ class MoviesFragment : Fragment() {
 
     private fun loadDataMovies() {
         viewModel.setData("MovieList")
-        viewModel.liveData.observe(activity as HomeActivity, Observer {
+        viewModel.liveData.observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.LOADING -> pb_movies.visibility = View.VISIBLE
-                Status.SUCCESS -> it.data?.let { data -> showMovies(data) }
+                Status.SUCCESS -> it.data?.let { data ->
+                    showMovies(data)
+                }
                 Status.ERROR -> pb_movies.visibility = View.GONE
             }
         })

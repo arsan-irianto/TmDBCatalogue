@@ -12,6 +12,7 @@ buildscript {
         glideVersion = '4.9.0'
         koinVersion = '2.0.1'
         retrofitVersion = '2.6.0'
+        pagingVersion = '2.1.0'
     }
 
     repositories {

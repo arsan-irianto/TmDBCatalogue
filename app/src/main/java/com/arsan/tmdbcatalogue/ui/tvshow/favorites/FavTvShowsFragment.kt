@@ -69,7 +69,10 @@ class FavTvShowsFragment : Fragment() {
         viewModel.liveData.observe(activity as HomeActivity, Observer {
             when (it.status) {
                 Status.LOADING -> pb_fav_tvshow.visibility = View.VISIBLE
-                Status.SUCCESS -> it.data?.let { data -> showTv(data) }
+                Status.SUCCESS -> it.data?.let { data ->
+                    favTvshowsAdapter.submitList(data)
+                    showTv(data)
+                }
                 Status.ERROR -> {
                     pb_fav_tvshow.visibility = View.GONE
                 }

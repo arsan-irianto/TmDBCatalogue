@@ -19,18 +19,4 @@ import com.arsan.tmdbcatalogue.data.models.TvShow
 abstract class AppDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
     abstract fun tvShowDao(): TvShowDao
-/*    companion object {
-        @Volatile
-        private var INSTANCE: AppDatabase? = null
-
-        fun getDatabase(context: Context): AppDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext, AppDatabase::class.java, "themovie"
-                ).build()
-                INSTANCE = instance
-                instance
-            }
-        }
-    }*/
 }

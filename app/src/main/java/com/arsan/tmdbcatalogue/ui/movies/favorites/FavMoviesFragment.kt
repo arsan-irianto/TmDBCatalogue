@@ -69,7 +69,10 @@ class FavMoviesFragment : Fragment() {
         viewModel.liveData.observe(activity as HomeActivity, Observer {
             when (it.status) {
                 Status.LOADING -> pb_fav_movies.visibility = View.VISIBLE
-                Status.SUCCESS -> it.data?.let { data -> showFavMovies(data) }
+                Status.SUCCESS -> it.data?.let { data ->
+                    favMoviesAdapter.submitList(data)
+                    showFavMovies(data)
+                }
                 Status.ERROR -> pb_fav_movies.visibility = View.GONE
             }
         })

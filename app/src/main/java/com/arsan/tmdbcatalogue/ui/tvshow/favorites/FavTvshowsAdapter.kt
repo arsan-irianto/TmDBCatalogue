@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.arsan.tmdbcatalogue.BuildConfig
 import com.arsan.tmdbcatalogue.R
@@ -15,15 +17,13 @@ class FavTvshowsAdapter(
     private val context: Context,
     private val tvList: List<FavTvshow>,
     private val listener: (FavTvshow) -> Unit
-) :
-    RecyclerView.Adapter<FavTvshowsAdapter.TvShowVH>() {
+) : PagedListAdapter<FavTvshow, FavTvshowsAdapter.TvShowVH>(DATA_COMPARATOR) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvShowVH = TvShowVH(
         LayoutInflater.from(context).inflate(
             R.layout.item_fav_tvshow, parent, false
         )
     )
-
-    override fun getItemCount(): Int = tvList.size
 
     override fun onBindViewHolder(holder: TvShowVH, position: Int) {
         val tv = tvList[position]
@@ -41,6 +41,16 @@ class FavTvshowsAdapter(
             setOnClickListener { listener(tvShow) }
         }
 
+    }
+
+    companion object  {
+        private val DATA_COMPARATOR = object : DiffUtil.ItemCallback<FavTvshow>() {
+            override fun areItemsTheSame(oldItem: FavTvshow, newItem: FavTvshow): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: FavTvshow, newItem: FavTvshow): Boolean =
+                oldItem.id == newItem.id
+        }
     }
 
 }
